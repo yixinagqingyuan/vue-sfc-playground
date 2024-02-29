@@ -41,7 +41,7 @@ export function useStore(
     showOutput = ref(false),
     outputMode = ref('preview'),
     sfcOptions = ref({}),
-    compiler = shallowRef(defaultCompiler),
+    compiler = shallowRef(defaultCompiler), // vue-sfc
     vueVersion = ref(null),
 
     locale = ref(),
@@ -64,7 +64,10 @@ export function useStore(
   }
 
   function init() {
+    // debugger
+    // 创建effect 确保当编辑器内容改变时，即时编译
     watchEffect(() =>
+      // 编译模板
       compileFile(store, activeFile.value).then(
         (errs) => (errors.value = errs),
       ),

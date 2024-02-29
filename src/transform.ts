@@ -19,15 +19,17 @@ export async function compileFile(
   store: Store,
   { filename, code, compiled }: File,
 ): Promise<(string | Error)[]> {
+  // debugger
+  // 如果没有code 则返回空
   if (!code.trim()) {
     return []
   }
-
+  // 如果是css内容则直接返回css
   if (filename.endsWith('.css')) {
     compiled.css = code
     return []
   }
-
+  // 处理js 以及ts 模块
   if (filename.endsWith('.js') || filename.endsWith('.ts')) {
     if (filename.endsWith('.ts')) {
       code = await transformTS(code)
@@ -35,7 +37,7 @@ export async function compileFile(
     compiled.js = compiled.ssr = code
     return []
   }
-
+  // 处理json
   if (filename.endsWith('.json')) {
     let parsed
     try {
@@ -51,8 +53,10 @@ export async function compileFile(
   if (!filename.endsWith('.vue')) {
     return []
   }
-
+  // 最后处理vue 模板
+  // 生成唯一id
   const id = hashId(filename)
+  // 拆分文件
   const { errors, descriptor } = store.compiler.parse(code, {
     filename,
     sourceMap: true,
@@ -91,6 +95,7 @@ export async function compileFile(
 
   let clientScript: string
   let bindings: BindingMetadata | undefined
+  // 处理js
   try {
     ;[clientScript, bindings] = await doCompileScript(
       store,
@@ -128,6 +133,7 @@ export async function compileFile(
 
   // template
   // only need dedicated compilation if not using <script setup>
+  // 处理模板
   if (
     descriptor.template &&
     (!descriptor.scriptSetup ||
@@ -227,6 +233,8 @@ export async function compileFile(
     )
     compiled.js = clientCode.trimStart()
     compiled.ssr = ssrCode.trimStart()
+    // 输出编译后的结果 包括ssr 和js
+    console.log(compiled)
   }
 
   return []

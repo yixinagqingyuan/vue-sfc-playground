@@ -30,7 +30,6 @@ export class PreviewProxy {
   }
 
   iframe_command(action: string, args: any) {
-
     return new Promise((resolve, reject) => {
       const cmd_id = uid++
 
@@ -79,7 +78,7 @@ export class PreviewProxy {
         return this.handlers.on_error(event.data)
       case 'unhandledrejection':
         return this.handlers.on_unhandled_rejection(event.data)
-        // console类型
+      // console类型
       case 'console':
         return this.handlers.on_console(event.data)
       case 'console_group':
@@ -92,9 +91,10 @@ export class PreviewProxy {
   }
   // 执行代码
   eval(script: string | string[]) {
+    console.log(script)
     return this.iframe_command('eval', { script })
   }
-  
+
   handle_links() {
     return this.iframe_command('catch_clicks', {})
   }

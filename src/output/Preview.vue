@@ -54,6 +54,7 @@ function switchPreviewTheme() {
   if (!previewTheme.value) return
 
   const html = sandbox.contentDocument?.documentElement
+
   if (html) {
     html.className = theme.value
   } else {
@@ -126,13 +127,13 @@ function createSandbox() {
       /<html>/,
       `<html class="${previewTheme.value ? theme.value : ''}">`,
     )
-    .replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap))
+    .replace(/<!--IMPORT_MAP-->/, JSON.stringify(importMap)) // 使用importMap模式导入vue 以及vuesss的包
     .replace(
       /<!-- PREVIEW-OPTIONS-HEAD-HTML -->/,
-      previewOptions?.headHTML || '',
+      previewOptions?.headHTML || '', // 占位符head
     )
     .replace(
-      /<!--PREVIEW-OPTIONS-PLACEHOLDER-HTML-->/,
+      /<!--PREVIEW-OPTIONS-PLACEHOLDER-HTML-->/, // 占位符内容
       previewOptions?.placeholderHTML || '',
     )
   //赋值 iframe-container
@@ -166,6 +167,7 @@ function createSandbox() {
       runtimeError.value = 'Uncaught (in promise): ' + error.message
     },
     on_console: (log: any) => {
+      // console的回调事件
       if (log.duplicate) {
         return
       }
@@ -194,15 +196,20 @@ function createSandbox() {
       // group_logs(action.label, true);
     },
   })
-
+  //iframe 加载完毕
   sandbox.addEventListener('load', () => {
+    // 为a标签啥的绑定时事件，并且阻止a标签的默认行为，防止页面内打开跳转
     proxy.handle_links()
+    // 监听变动
     stopUpdateWatcher = watchEffect(updatePreview)
+    // 设置主题
     switchPreviewTheme()
   })
 }
 
+// 主要的编译逻辑
 async function updatePreview() {
+  // 清楚控制台
   if (import.meta.env.PROD && clearConsole.value) {
     console.clear()
   }
@@ -225,13 +232,15 @@ async function updatePreview() {
 
   try {
     const mainFile = store.mainFile
-
+    // 可以直接输出html
     // if SSR, generate the SSR bundle and eval it to render the HTML
     if (isSSR && mainFile.endsWith('.vue')) {
       const ssrModules = compileModulesForPreview(store, true)
+      //debugger
       console.info(
         `[@vue/repl] successfully compiled ${ssrModules.length} modules for SSR.`,
       )
+
       await proxy.eval([
         `const __modules__ = {};`,
         ...ssrModules,
@@ -256,6 +265,7 @@ async function updatePreview() {
     }
 
     // compile code to simulated module system
+    // 编译代码
     const modules = compileModulesForPreview(store)
     console.info(
       `[@vue/repl] successfully compiled ${modules.length} module${

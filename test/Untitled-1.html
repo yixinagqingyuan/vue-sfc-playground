@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <!-- <script async src="https://cdn.jsdelivr.net/npm/es-module-shims@1.5.18/dist/es-module-shims.wasm.js"></script> -->
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://play.vuejs.org/vue.runtime.esm-browser.js"
+        },
+        "scopes": {}
+      }
+    </script>
+    <script type="module">
+      import { ref } 'vue'
+      console.log(ref)
+    </script>
+  </body>
+</html>

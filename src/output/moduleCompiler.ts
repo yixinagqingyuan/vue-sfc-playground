@@ -45,6 +45,7 @@ function processFile(
   seen: Set<File>,
   isSSR: boolean,
 ) {
+  //debugger
   if (seen.has(file)) {
     return []
   }
@@ -53,7 +54,7 @@ function processFile(
   if (!isSSR && file.filename.endsWith('.html')) {
     return processHtmlFile(store, file.code, file.filename, processed, seen)
   }
-
+  // 做一些模块化的处理和标记，以便适用于沙箱渲染
   let {
     code: js,
     importedFiles,
@@ -103,6 +104,7 @@ function processChildFiles(
 }
 
 function processModule(store: Store, src: string, filename: string) {
+  //debugger
   const s = new MagicString(src)
 
   const ast = babelParse(src, {

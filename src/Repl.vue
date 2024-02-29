@@ -42,9 +42,9 @@ const props = withDefaults(defineProps<Props>(), {
   layoutReverse: false,
   ssr: false,
   previewOptions: () => ({
-    headHTML: '',
+    headHTML: '222222',
     bodyHTML: '',
-    placeholderHTML: '',
+    placeholderHTML: '111111',
     customCode: {
       importCode: '',
       useCode: '',
@@ -58,7 +58,7 @@ if (!props.editor) {
 }
 
 const outputRef = ref<InstanceType<typeof Output>>()
-
+// 初始化编译
 props.store.init()
 
 const editorSlotName = computed(() => (props.layoutReverse ? 'right' : 'left'))

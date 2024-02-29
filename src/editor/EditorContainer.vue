@@ -13,9 +13,11 @@ const props = defineProps<{
 }>()
 
 const store = inject(injectKeyStore)!
+console.log(store)
 const showMessage = ref(getItem())
 
 const onChange = debounce((code: string) => {
+  // 更改code 代码 主要为边以前代码
   store.activeFile.code = code
 }, 250)
 
