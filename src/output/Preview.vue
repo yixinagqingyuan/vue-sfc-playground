@@ -240,7 +240,7 @@ async function updatePreview() {
       console.info(
         `[@vue/repl] successfully compiled ${ssrModules.length} modules for SSR.`,
       )
-
+      debugger
       await proxy.eval([
         `const __modules__ = {};`,
         ...ssrModules,
