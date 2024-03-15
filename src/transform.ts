@@ -56,7 +56,7 @@ export async function compileFile(
   // 最后处理vue 模板
   // 生成唯一id
   const id = hashId(filename)
-    debugger
+  //debugger
   // 拆分文件
   const { errors, descriptor } = store.compiler.parse(code, {
     filename,
@@ -235,7 +235,7 @@ export async function compileFile(
     compiled.js = clientCode.trimStart()
     compiled.ssr = ssrCode.trimStart()
     // 输出编译后的结果 包括ssr 和js
-    debugger
+    //debugger
     console.log(compiled)
   }
 

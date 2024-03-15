@@ -91,7 +91,7 @@ export class PreviewProxy {
   }
   // 执行代码
   eval(script: string | string[]) {
-    debugger
+    //debugger
     return this.iframe_command('eval', { script })
   }
 

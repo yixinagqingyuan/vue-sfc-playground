@@ -47,7 +47,7 @@ const App = {
     // }, 1000)
 
     // store.vueVersion = '3.4.1'
-    const theme = ref<'light' | 'dark'>('dark')
+    const theme = ref<'light' | 'dark'>('light')
     window.theme = theme
     const previewTheme = ref(false)
     window.previewTheme = previewTheme
