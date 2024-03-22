@@ -145,6 +145,7 @@ function createSandbox() {
     on_fetch_progress: (progress: any) => {
       // pending_imports = progress;
     },
+    // 执行错误回调
     on_error: (event: any) => {
       const msg =
         event.value instanceof Error ? event.value.message : event.value
@@ -166,6 +167,7 @@ function createSandbox() {
       }
       runtimeError.value = 'Uncaught (in promise): ' + error.message
     },
+    // console的回调事件
     on_console: (log: any) => {
       // console的回调事件
       if (log.duplicate) {

@@ -34,7 +34,7 @@ export class PreviewProxy {
       const cmd_id = uid++
 
       this.pending_cmds.set(cmd_id, { resolve, reject })
-      // 通知子 iframe
+      // 通知子 iframe 发送事件
       this.iframe.contentWindow!.postMessage({ action, cmd_id, args }, '*')
     })
   }
@@ -67,8 +67,9 @@ export class PreviewProxy {
     if (event.source !== this.iframe.contentWindow) return
 
     const { action, args } = event.data
-
+ // 错误成功开始结束的等一些事件回调
     switch (action) {
+     
       case 'cmd_error':
       case 'cmd_ok':
         return this.handle_command_message(event.data)
